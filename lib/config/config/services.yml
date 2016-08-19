@@ -1,19 +1,74 @@
-# Core Services:
-#   sf_event_dispatcher
-#   sf_formatter
-#   sf_filesystem
-#   sf_logger
-#
-all:
-  services:
+parameters:
+  sf_logger.NoLogger.class: sfNoLogger
+  sf_database_manager.class: sfDatabaseManager
 
-    sf_logger:
-      class: sfEventLogger
-      arguments:
-        - '@sf_event_dispatcher'
+#  sf_context.class: ~
+#  sf_context.name: ~
 
-    sf_filesystem:
-      class: sfFilesystem
-      arguments:
-        - '@sf_event_dispatcher'
-        - '@sf_formatter'
+services:
+  sf_application_configuration: { synthetic: true }
+  sf_event_dispatcher: { synthetic: true }
+
+#  sf_view_cache: {  }
+#  sf_view_cache_manager: {  }
+#  sf_context: {  }
+#  sf_i18n: {  }
+#  sf_database_manager: {  }
+#  sf_user: {  }
+#  sf_routing: {  }
+#  sf_request: {  }
+#  sf_response: {  }
+#  sf_storage: {  }
+
+  sf_context:
+    class: sfContext
+    factory: [sfContext, createInstance]
+    arguments:
+      - '@sf_application_configuration'
+      - "@=container.hasParameter('sf_context.name') ? parameter('sf_context.name') : null"
+      - "@=container.hasParameter('sf_context.class') ? parameter('sf_context.class') : 'sfContext'"
+
+  sf_no_logger:
+    class: '%sf_logger.NoLogger.class%'
+    arguments: ['@sf_event_dispatcher', {}]
+
+  sf_formatter:
+    class: sfFormatter
+
+  sf_filesystem:
+    class: sfFilesystem
+    arguments:
+      - '@sf_event_dispatcher'
+      - '@sf_formatter'
+
+  sf_event_logger:
+    class: sfEventLogger
+    arguments:
+      - '@sf_event_dispatcher'
+
+  sf_action_stack:
+    class: sfActionStack
+
+  sf_response_configurator:
+    class: sfServiceResponseConfigurator
+    arguments: ['@sf_request']
+    public: false
+
+  sf_request_configurator:
+    class: sfServiceRequestConfigurator
+    arguments: ['@sf_routing']
+    public: false
+
+  sf_routing_configurator:
+    class: sfServiceAppRoutingConfigurator
+    arguments: ['@sf_request']
+    public: false
+
+  sf_i18n_configurator:
+    class: sfServiceI18nConfigurator
+    public: false
+
+  sf_storage_configurator:
+    class: sfServiceStorageConfigurator
+    arguments: ['@sf_database_manager']
+    public: false

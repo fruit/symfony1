@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -73,17 +73,17 @@ class ApplicationTask extends sfBaseTask
 
   public function getServiceContainer()
   {
-    return parent::getServiceContainer();
+    return $this->configuration->getContainer();
   }
 
   public function getRouting()
   {
-    return parent::getRouting();
+    return $this->getServiceContainer()->get('sf_routing');
   }
 
   public function getMailer()
   {
-    return parent::getMailer();
+    return $this->getServiceContainer()->get('sf_mailer');
   }
 }
 

@@ -4,7 +4,7 @@
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
  * (c) 2004-2006 Sean Kerr <sean@code-box.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -45,7 +45,7 @@ abstract class sfStorage
    *
    *  * auto_shutdown: Whether to automatically save the changes to the session (true by default)
    *
-   * @param  array $options  An associative array of options
+   * @param  array $options An associative array of options
    *
    * @return bool true, if initialization completes successfully, otherwise false
    *
@@ -53,9 +53,40 @@ abstract class sfStorage
    */
   public function initialize($options = array())
   {
-    $this->options = array_merge(array(
-      'auto_shutdown' => true,
-    ), $options);
+    $this->options = array_merge(
+      array(
+        'auto_shutdown' => true,
+      ),
+      $options
+    );
+  }
+
+  /**
+   * Sets single option value
+   *
+   * @param string $name
+   * @param mixed  $value
+   *
+   * @return self
+   */
+  public function setOption($name, $value)
+  {
+    $this->options[$name] = $value;
+
+    return $this;
+  }
+
+  /**
+   * Returns single option value
+   *
+   * @param string $name
+   * @param mixed  $default
+   *
+   * @return mixed
+   */
+  public function getOption($name, $default = null)
+  {
+    return array_key_exists($name, $this->options) ? $this->options[$name] : $default;
   }
 
   /**
@@ -73,7 +104,7 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param  string $key  A unique key identifying your data
+   * @param  string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    *
@@ -97,7 +128,7 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param  string $key  A unique key identifying your data
+   * @param  string $key A unique key identifying your data
    *
    * @return mixed Data associated with the key
    *
@@ -117,8 +148,8 @@ abstract class sfStorage
    *
    * The preferred format for a key is directory style so naming conflicts can be avoided.
    *
-   * @param  string $key   A unique key identifying your data
-   * @param  mixed  $data  Data associated with your key
+   * @param  string $key  A unique key identifying your data
+   * @param  mixed  $data Data associated with your key
    *
    * @throws <b>sfStorageException</b> If an error occurs while writing to this storage
    */

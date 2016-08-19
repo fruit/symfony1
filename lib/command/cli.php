@@ -8,22 +8,18 @@
  * file that was distributed with this source code.
  */
 
-// Try autoloading using composer if available.
-if (!file_exists($autoload = __DIR__.'/../../../../autoload.php'))
-{
-  $autoload = __DIR__.'/../../autoload.php';
-}
-
-// Fall back to classic Symfony loading
-if (!file_exists($autoload))
-{
-  require_once(__DIR__.'/../autoload/sfCoreAutoload.class.php');
-  sfCoreAutoload::register();
-}
-else
-{
-  require_once $autoload;
-}
+//// Try autoloading using composer if available.
+//$autoload = __DIR__.'/../../../../vendor/autoload.php';
+//if (!is_file($autoload))
+//{
+//  $autoload = __DIR__.'/../../vendor/autoload.php';
+//}
+//
+//if (! is_file($autoload))
+//{
+//  throw new RuntimeException("Composer's autoload.php file not found");
+//}
+//require_once $autoload;
 
 try
 {

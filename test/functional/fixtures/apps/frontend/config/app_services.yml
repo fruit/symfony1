@@ -1,0 +1,10 @@
+imports:
+  - { resource: 'services/app/test.yml' }
+
+parameters:
+  my_app_param: foo
+
+services:
+  my_app_service:
+    class: sfOutputEscaperSafe
+    arguments: ['%my_project_param%']

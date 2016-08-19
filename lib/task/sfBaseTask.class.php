@@ -18,10 +18,25 @@
  */
 abstract class sfBaseTask extends sfCommandApplicationTask
 {
-  protected
-    $configuration   = null,
-    $pluginManager   = null,
-    $statusStartTime = null;
+  /**
+   * @var sfServiceContainer
+   */
+  protected $serviceContainer = null;
+
+  /**
+   * @var sfApplicationConfiguration
+   */
+  public $configuration = null;
+
+  /**
+   * @var sfSymfonyPluginManager
+   */
+  protected $pluginManager = null;
+
+  /**
+   * @var int
+   */
+  protected $statusStartTime = null;
 
   /**
    * @see sfTask
@@ -208,6 +223,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
     {
       $this->checkAppExists($application);
 
+      /** @noinspection PhpIncludeInspection */
       require_once sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php';
 
       $configuration = ProjectConfiguration::getApplicationConfiguration($application, $env, $this->isDebug(), null, $this->dispatcher);
@@ -216,6 +232,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
     {
       if (file_exists(sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php'))
       {
+        /** @noinspection PhpIncludeInspection */
         require_once sfConfig::get('sf_config_dir').'/ProjectConfiguration.class.php';
         $configuration = new ProjectConfiguration(null, $this->dispatcher);
       }
@@ -518,7 +535,7 @@ abstract class sfBaseTask extends sfCommandApplicationTask
   }
 
   /**
-   * Convert time into humain format
+   * Convert time into human format
    *
    * @param integer $time
    * @return string

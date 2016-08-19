@@ -19,9 +19,9 @@
 class sfWebDebugLogger extends sfVarLogger
 {
   protected
-    $context       = null,
+    $context = null,
     $webDebugClass = null,
-    $webDebug      = null;
+    $webDebug = null;
 
   /**
    * Initializes this logger.
@@ -30,8 +30,8 @@ class sfWebDebugLogger extends sfVarLogger
    *
    *  * web_debug_class: The web debug class (sfWebDebug by default)
    *
-   * @param  sfEventDispatcher $dispatcher  A sfEventDispatcher instance
-   * @param  array             $options     An array of options.
+   * @param  sfEventDispatcher $dispatcher A sfEventDispatcher instance
+   * @param  array             $options    An array of options.
    *
    * @return Boolean           true, if initialization completes successfully, otherwise false.
    *
@@ -59,7 +59,7 @@ class sfWebDebugLogger extends sfVarLogger
    */
   protected function registerErrorHandler()
   {
-    set_error_handler(array($this,'handlePhpError'));
+    set_error_handler(array($this, 'handlePhpError'));
   }
 
   /**
@@ -104,7 +104,7 @@ class sfWebDebugLogger extends sfVarLogger
 
   /**
    * Listens for the context.load_factories event.
-   * 
+   *
    * @param sfEvent $event
    */
   public function listenForLoadFactories(sfEvent $event)
@@ -148,14 +148,15 @@ class sfWebDebugLogger extends sfVarLogger
     // * if HTTP headers only
     $response = $event->getSubject();
     $request  = $this->context->getRequest();
+
     if (
       null === $this->webDebug
       ||
-      !$this->context->has('request')
+      !$this->context->has('sf_request')
       ||
-      !$this->context->has('response')
+      !$this->context->has('sf_response')
       ||
-      !$this->context->has('controller')
+      !$this->context->has('sf_controller')
       ||
       $request->isXmlHttpRequest()
       ||

@@ -14,6 +14,8 @@ ini_set('session.auto_start', 'off');
 ini_set('arg_separator.output', '&amp;');
 ini_set('allow_url_fopen', 'on');
 
+include __DIR__ . "/../../vendor/autoload.php";
+
 if (!isset($root_dir))
 {
   $root_dir = realpath(__DIR__.sprintf('/../%s/fixtures', isset($type) ? $type : 'functional'));

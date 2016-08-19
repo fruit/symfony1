@@ -1,26 +1,45 @@
 {
-    "name": "lexpress/symfony1",
-    "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
+    "name": "fruit/symfony1",
+    "description": "Fork of Symfony v1.5",
+    "version": "1.6.0-dev",
     "license": "MIT",
     "require": {
-        "swiftmailer/swiftmailer": "~5.2"
+        "php": ">=5.5.9",
+        "swiftmailer/swiftmailer": "~5.2",
+        "symfony/dependency-injection": "*",
+        "symfony/config": "*",
+        "symfony/yaml": "*",
+        "symfony/expression-language": "*",
+        "symfony/proxy-manager-bridge": "*"
     },
     "require-dev": {
-        "psr/log": "*"
+        "psr/log": "*",
+        "lexpress/doctrine1": "dev-master"
     },
     "type": "library",
     "autoload": {
-        "files": ["autoload.php"]
+        "classmap": ["lib/"],
+        "exclude-from-classmap": [
+            "/lib/plugins/",
+            "/lib/vendor/",
+            "/lib/task/generator/skeleton/",
+            "/lib/controller/default/",
+            "/lib/helper/"
+        ],
+        "files": [
+            "data/bin/version.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": ["test/"]
     },
     "suggest": {
         "lexpress/doctrine1": "Doctrine plugin",
         "propel/sf-propel-o-r-m-plugin": "Propel plugin",
         "psr/log": "Psr logger"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.5-dev"
-        }
+    "archive": {
+        "exclude": ["/test", "/vendor"]
     },
     "bin": ["data/bin/symfony"]
 }
