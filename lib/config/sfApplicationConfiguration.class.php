@@ -228,6 +228,8 @@ namespace {
       //$container->addObjectResource($this);
       $this->prepareContainer($containerBuilder);
 
+      $this->dispatcher->notify(new sfEvent($containerBuilder, 'service_container.on_build', array('application' => $this)));
+
       $loader = $this->getContainerLoader($containerBuilder);
       if (null !== $cont = $this->registerContainerConfiguration($loader))
       {
@@ -264,10 +266,10 @@ namespace {
         /* @var $pluginConfiguration sfPluginConfiguration */
         $pluginConfiguration->build($container);
 
-        //if ($this->isDebug())
-        //{
-        //$container->addObjectResource($pluginConfiguration);
-        //}
+        if ($this->isDebug())
+        {
+          $container->addObjectResource($pluginConfiguration);
+        }
       }
 
       $files = $this->getConfigPaths('config/factories.yml');
@@ -307,6 +309,7 @@ namespace {
 
       $class = $this->getContainerClass();
       $cache = new ConfigCache(sfConfig::get('sf_config_cache_dir') . '/' . $class . '.php', $this->debug);
+
       $fresh = true;
       if (!$cache->isFresh())
       {
@@ -1020,11 +1023,6 @@ namespace {
       $this->shutdownService('sf_user');
       $this->shutdownService('sf_storage');
       $this->shutdownService('sf_routing');
-
-      if (sfConfig::get('sf_use_database'))
-      {
-        $this->shutdownService('sf_database_manager');
-      }
 
       if (sfConfig::get('sf_logging_enabled'))
       {

@@ -14,7 +14,7 @@ if (is_file(dirname(__FILE__) . '/../../vendor/autoload.php')) {
 }
 
 // project exists?
-if (file_exists('config/ProjectConfiguration.class.php'))
+if (is_file('config/ProjectConfiguration.class.php'))
 {
   require_once('config/ProjectConfiguration.class.php');
   $dir = sfCoreAutoload::getInstance()->getBaseDir();

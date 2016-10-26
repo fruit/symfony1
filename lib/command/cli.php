@@ -8,19 +8,6 @@
  * file that was distributed with this source code.
  */
 
-//// Try autoloading using composer if available.
-//$autoload = __DIR__.'/../../../../vendor/autoload.php';
-//if (!is_file($autoload))
-//{
-//  $autoload = __DIR__.'/../../vendor/autoload.php';
-//}
-//
-//if (! is_file($autoload))
-//{
-//  throw new RuntimeException("Composer's autoload.php file not found");
-//}
-//require_once $autoload;
-
 try
 {
   $dispatcher = new sfEventDispatcher();
