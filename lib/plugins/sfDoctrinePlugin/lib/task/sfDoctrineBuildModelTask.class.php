@@ -70,6 +70,7 @@ EOF;
     $import->setOptions($builderOptions);
     $import->importSchema($schema, 'yml', $config['models_path']);
 
+    $stringTypes = array('timestamp', 'date', 'enum', 'text', 'clob');
     // markup base classes with magic methods
     foreach (sfYaml::load($schema) as $model => $definition)
     {
@@ -93,10 +94,11 @@ EOF;
         foreach ($properties as $name => $type)
         {
           $camelized = sfInflector::camelize($name);
+          $argName = sprintf('%s $%s', (in_array($type, $stringTypes)) ? 'string' : $type, lcfirst($camelized));
           $collection = 'Doctrine_Collection' == $type;
 
           $getters[] = sprintf('@method %-'.$typePad.'s %s%-'.($namePad + 2).'s Returns the current record\'s "%s" %s', $type, 'get', $camelized.'()', $name, $collection ? 'collection' : 'value');
-          $setters[] = sprintf('@method %-'.$typePad.'s %s%-'.($namePad + 2).'s Sets the current record\'s "%s" %s', $model, 'set', $camelized.'()', $name, $collection ? 'collection' : 'value');
+          $setters[] = sprintf('@method %-'.$typePad.'s %s%-'.($namePad + 2).'s Sets the current record\'s "%s" %s', $model, 'set', $camelized."({$argName})", $name, $collection ? 'collection' : 'value');
         }
 
         // use the last match as a search string
